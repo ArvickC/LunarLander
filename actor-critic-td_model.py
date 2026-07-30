@@ -37,7 +37,6 @@ class CriticNetwork(nn.Module):
 
 def train(n_episodes = 2000, gamma = 0.99, actor_lr=3e-4, critic_lr = 1e-3,
           entropy_coef = 0.01, log_every = 20, run_name = None):
-    #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device = "cpu"
     print(f"Using {device} device")
 
@@ -82,6 +81,7 @@ def train(n_episodes = 2000, gamma = 0.99, actor_lr=3e-4, critic_lr = 1e-3,
                 with torch.no_grad():
                     next_value = critic(next_state_t)
 
+            # Temporal Difference
             td_target = reward + gamma * next_value
             value = critic(state_t)
             td_error = td_target - value
@@ -119,8 +119,8 @@ def train(n_episodes = 2000, gamma = 0.99, actor_lr=3e-4, critic_lr = 1e-3,
 
     env.close()
     writer.close()
-    torch.save(actor.state_dict(), "actor_critic_td_actor_2.pt")
-    torch.save(critic.state_dict(), "actor_critic_td_critic_2.pt")
+    torch.save(actor.state_dict(), "models/actor_critic_td_actor_2.pt")
+    torch.save(critic.state_dict(), "models/actor_critic_td_critic_2.pt")
     print("Saved actor and critic weights.")
     print("View training curves with: tensorboard --logdir=runs")
     return episode_rewards

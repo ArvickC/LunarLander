@@ -66,7 +66,7 @@ def train(
 
     policy = PolicyNetwork(state_dim, action_dim).to(device)
     try:
-        policy.load_state_dict(torch.load("reinforce_policy.pth", map_location=device))  # Load existing model if available
+        policy.load_state_dict(torch.load("models/reinforce_policy.pth", map_location=device))  # Load existing model if available
         print("Loaded existing model from reinforce_policy.pth")
     except FileNotFoundError:
         print("No existing model found, starting from scratch")
@@ -87,7 +87,7 @@ def train(
         G0 = returns[0]
         baseline_mean = (1 - baseline_momentum) * baseline_mean + baseline_momentum * G0
         baseline_sq_mean = (1 - baseline_momentum) * baseline_sq_mean + baseline_momentum * G0 * G0
-        baseline_std = max((baseline_sq_mean - baseline_mean ** 2) ** 0.5, 1e-3)\
+        baseline_std = max((baseline_sq_mean - baseline_mean ** 2) ** 0.5, 1e-3)
 
         advantages_tensor = (returns_tensor - baseline_mean) / baseline_std
 
@@ -112,8 +112,8 @@ def train(
             break
 
     env.close()
-    torch.save(policy.state_dict(), "./reinforce_policy.pth")
-    print(f"Saved model to ./reinforce_policy.pth")
+    torch.save(policy.state_dict(), "models/reinforce_policy.pth")
+    print(f"Saved model to ./models/reinforce_policy.pth")
     return episode_rewards
 
 if __name__ == "__main__":

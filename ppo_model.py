@@ -216,8 +216,8 @@ def train(total_timesteps=500_000, rollout_length = 2048, gamma=0.99, gae_lambda
 
     env.close()
     writer.close()
-    torch.save(actor.state_dict(), "ppo_actor.pt")
-    torch.save(critic.state_dict(), "ppo_critic.pt")
+    torch.save(actor.state_dict(), "models/ppo_actor.pt")
+    torch.save(critic.state_dict(), "models/ppo_critic.pt")
     print("Saved actor and critic weights.")
     print("View training curves with: tensorboard --logdir=runs")
     return all_episode_rewards

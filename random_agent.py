@@ -8,7 +8,7 @@ for ep in range(NUM_EPISODES):
     done = False
     total_reward = 0
     while not done:
-        action = env.action_space.sample()
+        action = env.action_space.sample() # choose random action
         state, reward, term, trunc, info = env.step(action)
         total_reward += reward
         done = term or trunc

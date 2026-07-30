@@ -4,10 +4,10 @@ import gymnasium as gym
 import torch
 
 
-def watch_trained(num_episodes=3, checkpoint="ppo_vec_actor.pt"):
+def watch_trained(num_episodes=3, checkpoint="ppo_actor.pt"):
     env = gym.make("LunarLander-v3", render_mode="human")
     policy = PolicyNetwork(env.observation_space.shape[0], env.action_space.n)
-    policy.load_state_dict(torch.load(checkpoint, map_location="cpu"))
+    policy.load_state_dict(torch.load("./models/" + checkpoint, map_location="cpu"))
     policy.eval()
 
     for ep in range(num_episodes):
